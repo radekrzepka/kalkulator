@@ -76,6 +76,22 @@ numbers.forEach((element,index) => {
     })
 });
 
+//obsługa przycisków na klawiaturze
+
+//cyfry
+document.addEventListener("keydown", event => {
+    if(event.key >=0 && event.key<=9) {
+        mainResultInput.value += event.key;
+    }
+});
+
+//backspace
+document.addEventListener("keydown", event => {
+    if(event.key == "Backspace") {
+        mainResultInput.value =  mainResultInput.value.slice(0,mainResultInput.value.length-1);
+    }
+});
+
 //obsługa znaków działań
 dotChar.addEventListener("click", () => {
     mainResultInput.value += ".";
