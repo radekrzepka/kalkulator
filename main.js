@@ -95,8 +95,8 @@ equalChar.addEventListener("click", () => {
      
     giveResult();
 
-    charsNumbersArray.splice(0,charsNumbersArray.length);
-    sideResultInputWrite();
+    // charsNumbersArray.splice(0,charsNumbersArray.length);
+    // sideResultInputWrite();
 });
 
 addChar.addEventListener("click", () => {
@@ -104,7 +104,7 @@ addChar.addEventListener("click", () => {
     sideResultInputWrite();
     mainResultInput.value = "";
 
-    if(emptyTable()==false || charsNumbersArray[0]!="-") newChar("+");
+    if(emptyTable()==false && charsNumbersArray[0]!="-") newChar("+");
 
     sideResultInputWrite();
 });
@@ -124,7 +124,7 @@ multiplyChar.addEventListener("click", () => {
     sideResultInputWrite();
     mainResultInput.value = "";
     
-    if(emptyTable()==false) newChar("*");
+    if(emptyTable()==false && charsNumbersArray[0]!="-") newChar("*");
 
     sideResultInputWrite();
 });
@@ -134,7 +134,7 @@ devideChar.addEventListener("click", () => {
     sideResultInputWrite();
     mainResultInput.value = "";
 
-    if(emptyTable()==false) newChar("/");
+    if(emptyTable()==false && charsNumbersArray[0]!="-") newChar("/");
 
     sideResultInputWrite();
 });
