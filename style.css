@@ -69,7 +69,8 @@ button {
 }
 
 .history {
-    width: 200px;
+    min-width: 200px;
+    width: auto;
     background-color: rgb(108, 255, 108);
     height: 620px;
     display: flex;
