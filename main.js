@@ -50,6 +50,13 @@ const giveResult = () => {
         }
         mainResultInput.value = result;
     }
+
+    const record = new Record(sideResultInput.value, result);
+    history.push(record);
+    showHistory();
+
+    charsNumbersArray.splice(0, charsNumbersArray.length);
+    sideResultInputWrite();
 }
 
 //sprawdza czy użytkownik nie chce dodać na pierwszej pozycji znaku
@@ -161,3 +168,43 @@ clearButton.addEventListener("click", () => {
     charsNumbersArray.splice(0,charsNumbersArray.length);
     sideResultInputWrite();
 })
+
+
+//historia 
+const history = [];
+
+class Record {
+    constructor(operation,result){
+        this.operation = operation;
+        this.result = result;
+    }
+}
+
+//pokaż historię
+
+const divApp = document.querySelector(".app");
+let divHistory = document.querySelector(".history");
+
+const showHistory = () => {
+    divHistory.remove();
+    divHistory = document.createElement("div");
+    divHistory.classList.add("history");
+    divApp.appendChild(divHistory);    
+
+    history.forEach((element,index) => {
+        const div = document.createElement("div");
+        div.classList.add("record");
+        divHistory.appendChild(div);
+
+        const spanOperation = document.createElement("span");
+        spanOperation.classList.add("operation");
+        spanOperation.textContent = history[index].operation;
+
+        const spanResult = document.createElement("span");
+        spanResult.classList.add("result");
+        spanResult.textContent = history[index].result;
+
+        div.appendChild(spanOperation);
+        div.appendChild(spanResult);
+    });
+}

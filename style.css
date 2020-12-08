@@ -3,6 +3,9 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+.app {
+    display: flex;
+}
 .calculator {
     width: 350px;
     display: flex;
@@ -63,4 +66,29 @@ button {
 
 .row .equal {
     width: 100%;
+}
+
+.history {
+    width: 200px;
+    background-color: rgb(108, 255, 108);
+    height: 620px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+.record {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.operation {
+    font-size: 20px;
+    color: black;
+}
+
+.result {
+    font-size: 30px;
+    font-weight: bold;
 }
