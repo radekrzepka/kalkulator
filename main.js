@@ -12,6 +12,7 @@ const clearButton = document.querySelector(".clear");
 
 const charsNumbersArray = []; //tablica liczb oraz znaków wprowadzanych przez użytkownika
 
+//zmienne pomocnicze
 let result = 0;
 let char = "";
 
@@ -32,6 +33,7 @@ const giveResult = () => {
     }
     else result = charsNumbersArray[0];
 
+    //obliczanie wyniku
     for(let i=1; i<charsNumbersArray.length; i+=2) {
         char = charsNumbersArray[i];
         switch(char) {
@@ -51,10 +53,12 @@ const giveResult = () => {
         mainResultInput.value = result;
     }
 
+    //wpisanie działania do historii
     const record = new Record(sideResultInput.value, result);
     history.push(record);
     showHistory();
 
+    //czysczenie interfejsu
     charsNumbersArray.splice(0, charsNumbersArray.length);
     sideResultInputWrite();
 }
@@ -74,8 +78,7 @@ const newChar = newChar => {
     else charsNumbersArray.push(newChar);
 }
 
-
-//przypisanie po kliknięciu odpowiedniej wartości do znaku
+//wypisanie odpowiednej cyfry po naciśnięciu przycisku
 numbers.forEach((element,index) => {
     element.addEventListener("click", () => {
         if(index == 9) mainResultInput.value += 0;
@@ -83,8 +86,9 @@ numbers.forEach((element,index) => {
     })
 });
 
-//obsługa przycisków na klawiaturze
 
+
+//obsługa przycisków na klawiaturze
 //cyfry
 document.addEventListener("keydown", event => {
     if(event.key >=0 && event.key<=9) {
@@ -99,29 +103,27 @@ document.addEventListener("keydown", event => {
     }
 });
 
+
+
 //obsługa znaków działań
+//znak kropki
 dotChar.addEventListener("click", () => {
     mainResultInput.value += ".";
 });
 
+//znak równa się
 equalChar.addEventListener("click", () => {
     //spradzamy czy ostatnim podanym znakiem przed nacisnięciem równa się nie jest żaden znak, jeśli jest usuwamy go
     charsNumbersArray.push(parseFloat(mainResultInput.value));
     sideResultInputWrite();
 
-    if((charsNumbersArray[charsNumbersArray.length-1] == "+" || charsNumbersArray[charsNumbersArray.length-1] == "-" || charsNumbersArray[charsNumbersArray.length-1] == "*" || charsNumbersArray[charsNumbersArray.length-1] == "/")==true) {
-        charsNumbersArray.splice(charsNumbersArray.length-1,1);
-    }
-    
     mainResultInput.value = "";
     sideResultInputWrite();
      
     giveResult();
-
-    // charsNumbersArray.splice(0,charsNumbersArray.length);
-    // sideResultInputWrite();
 });
 
+//znak plus
 addChar.addEventListener("click", () => {
     if(mainResultInput.value!="") charsNumbersArray.push(parseFloat(mainResultInput.value));
     sideResultInputWrite();
@@ -132,6 +134,7 @@ addChar.addEventListener("click", () => {
     sideResultInputWrite();
 });
 
+//znak minus
 minusChar.addEventListener("click", () => {
     if(mainResultInput.value!="") charsNumbersArray.push(parseFloat(mainResultInput.value));
     sideResultInputWrite();
@@ -142,6 +145,7 @@ minusChar.addEventListener("click", () => {
     sideResultInputWrite();
 });
 
+//znak mnożenia
 multiplyChar.addEventListener("click", () => {
     if(mainResultInput.value!="") charsNumbersArray.push(parseFloat(mainResultInput.value));
     sideResultInputWrite();
@@ -152,6 +156,7 @@ multiplyChar.addEventListener("click", () => {
     sideResultInputWrite();
 });
 
+//znak dzielenia
 devideChar.addEventListener("click", () => {
     if(mainResultInput.value!="") charsNumbersArray.push(parseFloat(mainResultInput.value));
     sideResultInputWrite();
@@ -162,13 +167,12 @@ devideChar.addEventListener("click", () => {
     sideResultInputWrite();
 });
 
-//obsługa przycisku czyść
+//znak czyść
 clearButton.addEventListener("click", () => {
     mainResultInput.value = "";
     charsNumbersArray.splice(0,charsNumbersArray.length);
     sideResultInputWrite();
 })
-
 
 //historia 
 const history = [];
@@ -181,7 +185,6 @@ class Record {
 }
 
 //pokaż historię
-
 const divApp = document.querySelector(".app");
 let divHistory = document.querySelector(".history");
 
