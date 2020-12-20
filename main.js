@@ -1,20 +1,17 @@
-//przypisywanie przycisków
 const numbers = document.querySelectorAll(".number");
 const mainResultInput = document.querySelector(".mainInput");
 const sideResultInput = document.querySelector(".sideInput");
+
 const addChar = document.querySelector(".add");
 const minusChar = document.querySelector(".minus");
 const multiplyChar = document.querySelector(".multiply");
 const devideChar = document.querySelector(".devide");
+
 const dotChar = document.querySelector(".dot");
 const equalChar = document.querySelector(".equal");
 const clearButton = document.querySelector(".clear");
 
-const charsNumbersArray = []; //tablica liczb oraz znaków wprowadzanych przez użytkownika
-
-//zmienne pomocnicze
-let result = 0;
-let char = "";
+const charsNumbersArray = []; 
 
 //wpisanie działania do pobocznego inputa
 const sideResultInputWrite = () => {
@@ -24,18 +21,24 @@ const sideResultInputWrite = () => {
     })
 };
 
+//obsługa przyicku cyfer
+numbers.forEach((element,index) => {
+    element.addEventListener("click", () => {
+        if(index == 9) mainResultInput.value += 0;
+        else mainResultInput.value += index+1;
+    })
+});
+
+//znak kropki
+dotChar.addEventListener("click", () => mainResultInput.value += ".");
+
 //funkcja licząca wynik 
-const giveResult = () => {
-    //sprawdzamy czy pierwszym znakiem jest minus, wtedy dajemy liczbę przeciwną
-    if(charsNumbersArray[0]=="-") {
-        charsNumbersArray.splice(0,1);
-        result = charsNumbersArray[0] * (-1);
-    }
-    else result = charsNumbersArray[0];
+const giveResult = () => {   
+    let result = charsNumbersArray[0];
 
     //obliczanie wyniku
     for(let i=1; i<charsNumbersArray.length; i+=2) {
-        char = charsNumbersArray[i];
+        let char = charsNumbersArray[i];
         switch(char) {
             case "+":
                 result += charsNumbersArray[i+1];
@@ -63,54 +66,6 @@ const giveResult = () => {
     sideResultInputWrite();
 }
 
-//sprawdza czy użytkownik nie chce dodać na pierwszej pozycji znaku
-const emptyTable = () => {
-    if(charsNumbersArray.length==0) return true;
-    else return false;
-}
-
-//sprawdzanie czy przed znakiem który chcemy wstawić jest inny znak, jeśli tak to go zamieniamy
-const newChar = newChar => {
-    if(charsNumbersArray[charsNumbersArray.length-1] == "+" || charsNumbersArray[charsNumbersArray.length-1] == "-" || charsNumbersArray[charsNumbersArray.length-1] == "*" || charsNumbersArray[charsNumbersArray.length-1] == "/") {
-        charsNumbersArray.splice(charsNumbersArray.length-1, 1);
-        charsNumbersArray.push(newChar);
-    }
-    else charsNumbersArray.push(newChar);
-}
-
-//wypisanie odpowiednej cyfry po naciśnięciu przycisku
-numbers.forEach((element,index) => {
-    element.addEventListener("click", () => {
-        if(index == 9) mainResultInput.value += 0;
-        else mainResultInput.value += index+1;
-    })
-});
-
-
-
-//obsługa przycisków na klawiaturze
-//cyfry
-document.addEventListener("keydown", event => {
-    if(event.key >=0 && event.key<=9) {
-        mainResultInput.value += event.key;
-    }
-});
-
-//backspace
-document.addEventListener("keydown", event => {
-    if(event.key == "Backspace") {
-        mainResultInput.value =  mainResultInput.value.slice(0,mainResultInput.value.length-1);
-    }
-});
-
-
-
-//obsługa znaków działań
-//znak kropki
-dotChar.addEventListener("click", () => {
-    mainResultInput.value += ".";
-});
-
 //znak równa się
 equalChar.addEventListener("click", () => {
     //spradzamy czy ostatnim podanym znakiem przed nacisnięciem równa się nie jest żaden znak, jeśli jest usuwamy go
@@ -123,47 +78,48 @@ equalChar.addEventListener("click", () => {
     giveResult();
 });
 
-//znak plus
-addChar.addEventListener("click", () => {
+//wpisanie liczby
+const writeNumber = () => {
     if(mainResultInput.value!="") charsNumbersArray.push(parseFloat(mainResultInput.value));
     sideResultInputWrite();
     mainResultInput.value = "";
+}
 
-    if(emptyTable()==false && charsNumbersArray[0]!="-") newChar("+");
+//sprawdzanie czy przed znakiem który chcemy wstawić jest inny znak, jeśli tak to go zamieniamy, a jeżeli tablica jest pusta nic nie wpisujemy
+const writeChar = newChar => {
+    if(charsNumbersArray[charsNumbersArray.length-1] == "+" || charsNumbersArray[charsNumbersArray.length-1] == "-" || charsNumbersArray[charsNumbersArray.length-1] == "*" || charsNumbersArray[charsNumbersArray.length-1] == "/") {
+        charsNumbersArray.splice(charsNumbersArray.length-1, 1);
+        charsNumbersArray.push(newChar);
+    }
+    else if(charsNumbersArray.length == 0) {}
+    else charsNumbersArray.push(newChar);
+}
 
+//znak plus
+addChar.addEventListener("click", () => {
+    writeNumber();
+    writeChar("+");
     sideResultInputWrite();
 });
 
 //znak minus
 minusChar.addEventListener("click", () => {
-    if(mainResultInput.value!="") charsNumbersArray.push(parseFloat(mainResultInput.value));
-    sideResultInputWrite();
-    mainResultInput.value = "";
-    
-    newChar("-");
-
+    writeNumber();
+    writeChar("-");
     sideResultInputWrite();
 });
 
 //znak mnożenia
 multiplyChar.addEventListener("click", () => {
-    if(mainResultInput.value!="") charsNumbersArray.push(parseFloat(mainResultInput.value));
-    sideResultInputWrite();
-    mainResultInput.value = "";
-    
-    if(emptyTable()==false && charsNumbersArray[0]!="-") newChar("*");
-
+    writeNumber();
+    writeChar("*");
     sideResultInputWrite();
 });
 
 //znak dzielenia
 devideChar.addEventListener("click", () => {
-    if(mainResultInput.value!="") charsNumbersArray.push(parseFloat(mainResultInput.value));
-    sideResultInputWrite();
-    mainResultInput.value = "";
-
-    if(emptyTable()==false && charsNumbersArray[0]!="-") newChar("/");
-
+    writeNumber();
+    writeChar("/");
     sideResultInputWrite();
 });
 
@@ -174,7 +130,7 @@ clearButton.addEventListener("click", () => {
     sideResultInputWrite();
 })
 
-//historia 
+//obsługa histori działań
 const history = [];
 
 class Record {
